@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Growth Companion & AI Coach</title>
+    <!-- Bootstrap 5 CSS & Google Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --bs-body-font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+            --brand-primary: #2563eb;
+            --brand-success: #10b981;
+            --brand-purple: #8b5cf6;
+            --hero-gradient: linear-gradient(135deg, #1e1b4b 0%, #2563eb 50%, #7c3aed 100%);
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 20px 40px -10px rgba(37, 99, 235, 0.12);
+        }
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .navbar-brand-gradient {
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        .hero-banner {
+            background: var(--hero-gradient);
+            color: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .journey-step {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50rem;
+            padding: 0.4rem 1.1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .journey-step.active {
+            background: #ffffff;
+            color: #2563eb;
+        }
+        .card-custom {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.25rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+        .card-custom:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        .range-value-badge {
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50rem;
+            font-size: 0.875rem;
+        }
+        .form-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+        .btn-analyze {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            border: none;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 0.95rem 1.75rem;
+            border-radius: 0.85rem;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            transition: all 0.25s ease;
+        }
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
+            color: white;
+        }
+        .result-high-bg {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid #a7f3d0;
+        }
+        .result-low-bg {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fecaca;
+        }
+        .lang-switch-btn {
+            border-radius: 50rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.35rem 0.85rem;
+        }
+        .lang-switch-btn.active {
+            background-color: #2563eb !important;
+            color: white !important;
+            border-color: #2563eb !important;
+        }
+        .metric-score-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0.85rem;
+            padding: 0.85rem 1.1rem;
+            border: 1px solid #cbd5e1;
+        }
+        .ai-coach-box {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0e7ff 100%);
+            border: 1px solid #c084fc;
+            border-radius: 1rem;
+            padding: 1.25rem;
+        }
+        .badge-achievement {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 50rem;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+        }
+        .progress-sm {
+            height: 8px;
+            border-radius: 4px;
+        }
+        .smart-pill {
+            font-weight: 800;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3 sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-mortarboard-fill fs-2 text-primary"></i>
+                <span class="navbar-brand-gradient fs-4">EduPredict Coach AI</span>
+            </a>
+
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <!-- Post-Exam Result Logger Trigger -->
+                <button class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold" data-bs-toggle="modal" data-bs-target="#postExamModal">
+                    <i class="bi bi-trophy me-1"></i> <span data-en="Log Actual Score" data-hi="परीक्षा अंक दर्ज करें">Log Actual Score</span>
+                </button>
+
+                <!-- User Manual Trigger -->
+                <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold" data-bs-toggle="modal" data-bs-target="#userManualModal">
+                    <i class="bi bi-book me-1"></i> <span data-en="Guide" data-hi="मार्गदर्शिका">Guide</span>
+                </button>
+
+                <!-- Language Toggle -->
+                <div class="btn-group bg-light p-1 rounded-pill border" role="group">
+                    <button type="button" class="btn lang-switch-btn active" id="btnLangEn" onclick="switchLanguage('en')">English</button>
+                    <button type="button" class="btn lang-switch-btn" id="btnLangHi" onclick="switchLanguage('hi')">हिंदी</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+
+        <!-- Student Achievements & Welcome Bar -->
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div>
+                <h6 class="fw-bold mb-0 text-dark">
+                    <span data-en="Welcome back, Student 👋" data-hi="वापसी पर स्वागत है, छात्र 👋">Welcome back, Student 👋</span>
+                </h6>
+                <small class="text-secondary" data-en="Your personal academic AI growth companion" data-hi="आपका अपना शैक्षणिक एआई कोच">Your personal academic AI growth companion</small>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <span class="badge-achievement"><i class="bi bi-award-fill text-warning me-1"></i> Consistent Learner</span>
+                <span class="badge-achievement"><i class="bi bi-moon-stars-fill text-primary me-1"></i> Sleep Champion</span>
+                <span class="badge-achievement"><i class="bi bi-journal-check text-success me-1"></i> Exam Ready</span>
+            </div>
+        </div>
+
+        <!-- Onboarding Header & 3-Step Journey -->
+        <div class="hero-banner">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <h1 class="h2 fw-bold text-white mb-2" data-en="🎯 Predict Your Exam Success & Build Your Study Plan" data-hi="🎯 अपनी परीक्षा सफलता का पूर्वानुमान लगाएं और स्टडी प्लान बनाएं">
+                        🎯 Predict Your Exam Success & Build Your Study Plan
+                    </h1>
+                    <p class="text-white-50 mb-3 fs-6" data-en="Enter your current habits below. Get your predicted score, SMART goals framework, and 30-day growth roadmap." data-hi="अपनी अध्ययन आदतें दर्ज करें और अनुमानित अंक, स्मार्ट लक्ष्य ढांचा तथा 30 दिन का रोडमैप प्राप्त करें।">
+                        Enter your current habits below. Get your predicted score, SMART goals framework, and 30-day growth roadmap.
+                    </p>
+
+                    <!-- Step Journey Bar -->
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="journey-step active" id="step1Indicator" data-en="Step 1: Your Details" data-hi="चरण 1: आपकी जानकारी">Step 1: Your Details</span>
+                        <span class="journey-step" id="step2Indicator" data-en="Step 2: AI Prediction" data-hi="चरण 2: एआई पूर्वानुमान">Step 2: AI Prediction</span>
+                        <span class="journey-step" id="step3Indicator" data-en="Step 3: SMART Growth Plan" data-hi="चरण 3: स्मार्ट विकास योजना">Step 3: SMART Growth Plan</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 text-lg-end">
+                    <div class="stat-badge d-inline-block text-center px-4 py-3">
+                        <h3 class="fw-extrabold mb-0 text-white">{{ model_accuracy }}%</h3>
+                        <small class="text-white-50" data-en="AI Model Accuracy" data-hi="एआई मॉडल सटीकता">AI Model Accuracy</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Feature Input Form -->
+            <div class="col-lg-6">
+                <div class="card card-custom p-4" id="predict-form">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2 text-dark">
+                        <i class="bi bi-sliders text-primary fs-4"></i>
+                        <span data-en="Step 1: Enter Current Study Habits" data-hi="चरण 1: अध्ययन आदतें दर्ज करें">Step 1: Enter Current Study Habits</span>
+                    </h5>
+                    
+                    <form id="predictionForm" method="POST" action="/predict">
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label mb-0" data-en="📚 Study Time (Weekly Hours)" data-hi="📚 अध्ययन समय (साप्ताहिक घंटे)">📚 Study Time (Weekly Hours)</label>
+                                <span class="range-value-badge" id="study_hours_val">15 hrs</span>
+                            </div>
+                            <input type="range" class="form-range" min="1" max="35" step="0.5" id="study_hours" name="study_hours" value="{{ prediction_res.input_features.study_hours if prediction_res else 15 }}" oninput="updateVal('study_hours', ' hrs', ' घंटे')">
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label mb-0" data-en="🏫 Class Participation (%)" data-hi="🏫 कक्षा भागीदारी (%)">🏫 Class Participation (%)</label>
+                                <span class="range-value-badge" id="attendance_val">85%</span>
+                            </div>
+                            <input type="range" class="form-range" min="50" max="100" step="1" id="attendance" name="attendance" value="{{ prediction_res.input_features.attendance if prediction_res else 85 }}" oninput="updateVal('attendance', '%', '%')">
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label mb-0" data-en="📝 Academic Performance (Past Score %)" data-hi="📝 शैक्षणिक प्रदर्शन (पिछला अंक %)">📝 Academic Performance (Past Score %)</label>
+                                <span class="range-value-badge" id="previous_grades_val">75%</span>
+                            </div>
+                            <input type="range" class="form-range" min="40" max="100" step="1" id="previous_grades" name="previous_grades" value="{{ prediction_res.input_features.previous_grades if prediction_res else 75 }}" oninput="updateVal('previous_grades', '%', '%')">
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label mb-0" data-en="😴 Sleep & Rest (Hours/Night)" data-hi="😴 नींद और आराम (प्रति रात घंटे)">😴 Sleep & Rest (Hours/Night)</label>
+                                <span class="range-value-badge" id="sleep_hours_val">7 hrs</span>
+                            </div>
+                            <input type="range" class="form-range" min="4" max="10" step="0.5" id="sleep_hours" name="sleep_hours" value="{{ prediction_res.input_features.sleep_hours if prediction_res else 7 }}" oninput="updateVal('sleep_hours', ' hrs', ' घंटे')">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label" data-en="Extracurricular Activities" data-hi="पाठ्येतर गतिविधियाँ">Extracurricular Activities</label>
+                                <select class="form-select" name="extracurricular_activities">
+                                    <option value="Yes" {% if prediction_res and prediction_res.input_features.extracurricular_activities == 'Yes' %}selected{% endif %} data-en="Yes" data-hi="हाँ">Yes</option>
+                                    <option value="No" {% if not prediction_res or prediction_res.input_features.extracurricular_activities == 'No' %}selected{% endif %} data-en="No" data-hi="नहीं">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" data-en="Home Internet Access" data-hi="इंटरनेट सुविधा">Home Internet Access</label>
+                                <select class="form-select" name="internet_access">
+                                    <option value="Yes" selected data-en="Yes" data-hi="हाँ">Yes</option>
+                                    <option value="No" data-en="No" data-hi="नहीं">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label" data-en="Parental Education Level" data-hi="माता-पिता की शिक्षा का स्तर">Parental Education Level</label>
+                                <select class="form-select" name="parental_education">
+                                    <option value="High School" data-en="High School" data-hi="हाई स्कूल">High School</option>
+                                    <option value="Bachelor" selected data-en="Bachelor Degree" data-hi="स्नातक (Bachelor)">Bachelor Degree</option>
+                                    <option value="Master" data-en="Master Degree" data-hi="स्नातकोत्तर (Master)">Master Degree</option>
+                                    <option value="Doctorate" data-en="Doctorate / PhD" data-hi="डॉक्टरेट (Doctorate)">Doctorate / PhD</option>
+                                    <option value="Others" data-en="Others" data-hi="अन्य (Others)">Others</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" data-en="Family Academic Support" data-hi="पारिवारिक सहयोग">Family Academic Support</label>
+                                <select class="form-select" name="family_support">
+                                    <option value="Yes" selected data-en="Yes" data-hi="हाँ">Yes</option>
+                                    <option value="No" data-en="No" data-hi="नहीं">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Upgraded Action Button -->
+                        <button type="submit" class="btn btn-analyze w-100 d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-rocket-takeoff-fill fs-5"></i>
+                            <span id="btnRunText" data-en="Analyze My Performance 🚀" data-hi="मेरा प्रदर्शन विश्लेषित करें 🚀">Analyze My Performance 🚀</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Prediction Results & SMART Method Growth Companion Panel -->
+            <div class="col-lg-6">
+                <div class="card card-custom p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="fw-bold mb-3 d-flex align-items-center gap-2 text-dark">
+                            <i class="bi bi-trophy-fill text-warning fs-4"></i>
+                            <span data-en="Your Personal Performance & SMART Growth Plan" data-hi="आपकी व्यक्तिगत प्रदर्शन एवं स्मार्ट विकास योजना">Your Personal Performance & SMART Growth Plan</span>
+                        </h5>
+
+                        {% if prediction_res %}
+                        <!-- Emotion-First Result Card -->
+                        <div class="p-4 mb-3 rounded-4 {% if prediction_res.prediction == 'High Potential ⭐' %}result-high-bg{% else %}result-low-bg{% endif %}">
+                            <div class="text-center mb-2">
+                                <h3 class="fw-extrabold my-1 {% if prediction_res.prediction == 'High Potential ⭐' %}text-success{% else %}text-danger{% endif %}">
+                                    {% if prediction_res.prediction == 'High Potential ⭐' %}🎉 Great Progress!{% else %}⚡ Strong Opportunity to Grow!{% endif %}
+                                </h3>
+                                <span class="badge rounded-pill px-3 py-1 fs-6 my-1 {% if prediction_res.prediction == 'High Potential ⭐' %}bg-success text-white{% else %}bg-danger text-white{% endif %}">
+                                    <span class="res-text-en">{{ prediction_res.prediction }}</span>
+                                    <span class="res-text-hi" style="display:none;">{{ prediction_res.prediction_hi }}</span>
+                                </span>
+                            </div>
+
+                            <!-- Concrete Score Metrics -->
+                            <div class="row g-2 mt-2 text-center">
+                                <div class="col-4">
+                                    <div class="metric-score-card">
+                                        <small class="text-muted fw-semibold d-block fs-7" data-en="Predicted Score" data-hi="अनुमानित अंक">Predicted Score</small>
+                                        <h3 class="fw-extrabold text-primary mb-0">{{ prediction_res.expected_score }}%</h3>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="metric-score-card">
+                                        <small class="text-muted fw-semibold d-block fs-7" data-en="Target Goal" data-hi="लक्ष्य अंक">Target Goal</small>
+                                        <h3 class="fw-extrabold text-dark mb-0">{{ prediction_res.target_needed }}%</h3>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="metric-score-card">
+                                        <small class="text-muted fw-semibold d-block fs-7" data-en="Model Confidence" data-hi="विश्वास स्तर">Model Confidence</small>
+                                        <h4 class="fw-bold text-secondary mb-0 mt-1">{{ prediction_res.confidence }}%</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🤖 Conversational AI Coach Card -->
+                        <div class="ai-coach-box mb-3">
+                            <h6 class="fw-bold text-purple mb-2 d-flex align-items-center gap-2" style="color: #7c3aed;">
+                                <i class="bi bi-robot fs-5"></i>
+                                <span data-en="Your AI Coach says:" data-hi="आपके एआई कोच की सलाह:">Your AI Coach says:</span>
+                            </h6>
+                            <p class="mb-0 text-dark small fw-medium res-coach-en">"{{ prediction_res.ai_coach }}"</p>
+                            <p class="mb-0 text-dark small fw-medium res-coach-hi" style="display:none;">"{{ prediction_res.ai_coach_hi }}"</p>
+                        </div>
+
+                        <!-- 🎯 THE S.M.A.R.T. METHOD FRAMEWORK CARD (Replacing Radar Chart) -->
+                        <div class="bg-white p-3 rounded-3 mb-3 border shadow-sm border-primary border-opacity-25">
+                            <h6 class="fw-bold text-primary mb-3 fs-7 d-flex align-items-center gap-2">
+                                <i class="bi bi-crosshair text-primary fs-5"></i>
+                                <span data-en="The S.M.A.R.T. Goal Framework" data-hi="एस.एम.ए.आर.टी. (SMART) लक्ष्य ढांचा">The S.M.A.R.T. Goal Framework</span>
+                            </h6>
+
+                            <div class="d-flex flex-column gap-2 fs-7">
+                                <div class="d-flex align-items-start gap-2">
+                                    <span class="smart-pill bg-primary text-white">S</span>
+                                    <div>
+                                        <strong data-en="Specific:" data-hi="विशिष्ट:">Specific:</strong>
+                                        <span class="text-en text-secondary">{{ prediction_res.smart_method.specific }}</span>
+                                        <span class="text-hi text-secondary" style="display:none;">{{ prediction_res.smart_method_hi.specific }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start gap-2">
+                                    <span class="smart-pill bg-info text-white">M</span>
+                                    <div>
+                                        <strong data-en="Measurable:" data-hi="मापने योग्य:">Measurable:</strong>
+                                        <span class="text-en text-secondary">{{ prediction_res.smart_method.measurable }}</span>
+                                        <span class="text-hi text-secondary" style="display:none;">{{ prediction_res.smart_method_hi.measurable }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start gap-2">
+                                    <span class="smart-pill bg-success text-white">A</span>
+                                    <div>
+                                        <strong data-en="Achievable:" data-hi="प्राप्य:">Achievable:</strong>
+                                        <span class="text-en text-secondary">{{ prediction_res.smart_method.achievable }}</span>
+                                        <span class="text-hi text-secondary" style="display:none;">{{ prediction_res.smart_method_hi.achievable }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start gap-2">
+                                    <span class="smart-pill bg-warning text-dark">R</span>
+                                    <div>
+                                        <strong data-en="Relevant:" data-hi="प्रासंगिक:">Relevant:</strong>
+                                        <span class="text-en text-secondary">{{ prediction_res.smart_method.relevant }}</span>
+                                        <span class="text-hi text-secondary" style="display:none;">{{ prediction_res.smart_method_hi.relevant }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start gap-2">
+                                    <span class="smart-pill bg-purple text-white" style="background-color: #8b5cf6;">T</span>
+                                    <div>
+                                        <strong data-en="Time-Bound:" data-hi="समयबद्ध:">Time-Bound:</strong>
+                                        <span class="text-en text-secondary">{{ prediction_res.smart_method.time_bound }}</span>
+                                        <span class="text-hi text-secondary" style="display:none;">{{ prediction_res.smart_method_hi.time_bound }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- 🚀 FOCUS AREAS CARD -->
+                        <div class="p-3 mb-2 rounded-3 border bg-primary-subtle border-primary-subtle">
+                            <h6 class="fw-bold text-primary mb-2 fs-7 d-flex align-items-center gap-2">
+                                <i class="bi bi-rocket-takeoff-fill"></i>
+                                <span data-en="Focus Areas 🚀" data-hi="प्रमुख ध्यान क्षेत्र 🚀">Focus Areas 🚀</span>
+                            </h6>
+                            <ul class="list-unstyled mb-0 fs-7 text-dark fw-medium">
+                                {% for area in prediction_res.focus_areas %}
+                                <li class="mb-1 text-en">✦ {{ area }}</li>
+                                {% endfor %}
+                                {% for area in prediction_res.focus_areas_hi %}
+                                <li class="mb-1 text-hi" style="display:none;">✦ {{ area }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        {% else %}
+                        <!-- Initial Onboarding Placeholder -->
+                        <div class="text-center py-5 my-auto text-muted">
+                            <i class="bi bi-rocket-takeoff display-3 text-primary opacity-50 mb-3 d-block"></i>
+                            <h6 class="fw-bold text-dark" data-en="Ready to Start Your Journey?" data-hi="अपनी यात्रा शुरू करने के लिए तैयार हैं?">Ready to Start Your Journey?</h6>
+                            <p class="small text-secondary px-3" data-en="Fill in your study habits on the left and click 'Analyze My Performance 🚀' to see your predicted score, SMART method framework, AI coach advice, and personal study plan." data-hi="बाईं ओर अपनी अध्ययन आदतें भरें और 'मेरा प्रदर्शन विश्लेषित करें 🚀' दबाएं।">
+                                Fill in your study habits on the left and click 'Analyze My Performance 🚀' to see your predicted score, SMART method framework, AI coach advice, and personal study plan.
+                            </p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 📊 EXAM HISTORY & POST-EXAM COMPARISON TABLE -->
+        <div class="card card-custom p-4 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <h5 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2">
+                    <i class="bi bi-clock-history text-primary"></i>
+                    <span data-en="My Performance History & Exam Tracker" data-hi="मेरा प्रदर्शन इतिहास एवं परीक्षा ट्रैकर">My Performance History & Exam Tracker</span>
+                </h5>
+                <button class="btn btn-sm btn-outline-primary rounded-pill fw-semibold" data-bs-toggle="modal" data-bs-target="#postExamModal">
+                    <i class="bi bi-plus-lg me-1"></i> <span data-en="Log Past Exam Result" data-hi="पिछला परीक्षा परिणाम दर्ज करें">Log Past Exam Result</span>
+                </button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="historyTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" data-en="Exam Name" data-hi="परीक्षा नाम">Exam Name</th>
+                            <th scope="col" data-en="Predicted Score" data-hi="अनुमानित अंक">Predicted Score</th>
+                            <th scope="col" data-en="Actual Score" data-hi="वास्तविक अंक">Actual Score</th>
+                            <th scope="col" data-en="Accuracy" data-hi="सटीकता">Accuracy</th>
+                            <th scope="col" data-en="Status" data-hi="स्थिति">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td class="fw-semibold">Midterm Assessment</td>
+                            <td><span class="badge bg-primary-subtle text-primary fw-bold">71.0%</span></td>
+                            <td><span class="badge bg-success-subtle text-success fw-bold">74.0%</span></td>
+                            <td><span class="fw-bold text-dark">96.0%</span></td>
+                            <td><span class="badge bg-success">Verified 🎉</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- POST-EXAM SCORE LOGGER MODAL -->
+    <div class="modal fade" id="postExamModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-trophy text-warning fs-4"></i>
+                        <span data-en="Log Actual Exam Score" data-hi="वास्तविक परीक्षा अंक दर्ज करें">Log Actual Exam Score</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="postExamForm" onsubmit="saveExamHistory(event)">
+                        <div class="mb-3">
+                            <label class="form-label" data-en="Exam Name" data-hi="परीक्षा का नाम">Exam Name</label>
+                            <input type="text" class="form-control" id="examName" placeholder="e.g. Final Mathematics" required>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label" data-en="Predicted Score (%)" data-hi="अनुमानित अंक (%)">Predicted Score (%)</label>
+                                <input type="number" step="0.1" class="form-control" id="examPredicted" value="71.0" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label" data-en="Actual Score Received (%)" data-hi="वास्तविक अंक प्राप्त हुआ (%)">Actual Score Received (%)</label>
+                                <input type="number" step="0.1" class="form-control" id="examActual" placeholder="74.0" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold py-2" data-en="Save & Compare Accuracy" data-hi="सहेजें और सटीकता देखें">Save & Compare Accuracy</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- USER MANUAL MODAL -->
+    <div class="modal fade" id="userManualModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-book-half text-primary fs-4"></i>
+                        <span data-en="User Guide & SMART Method" data-hi="उपयोगकर्ता मार्गदर्शिका एवं स्मार्ट ढांचा">User Guide & SMART Method</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-primary mb-1"><i class="bi bi-1-circle-fill me-1"></i> Step 1: Input Habits</h6>
+                                <p class="small text-secondary mb-0">Enter your study hours, class participation, previous exam scores, and sleep schedule.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-primary mb-1"><i class="bi bi-2-circle-fill me-1"></i> Step 2: Get Prediction</h6>
+                                <p class="small text-secondary mb-0">Click 'Analyze My Performance 🚀' to see your predicted score and AI coach advice.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-primary mb-1"><i class="bi bi-3-circle-fill me-1"></i> Step 3: SMART Framework</h6>
+                                <p class="small text-secondary mb-0">Review your Specific, Measurable, Achievable, Relevant, and Time-bound study goals.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-primary mb-1"><i class="bi bi-4-circle-fill me-1"></i> Step 4: Track Progress</h6>
+                                <p class="small text-secondary mb-0">Log your actual scores after exams to track AI accuracy and personal progress!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Got It!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Language & History Controller -->
+    <script>
+        let currentLang = 'en';
+
+        function updateVal(id, suffixEn, suffixHi) {
+            const val = document.getElementById(id).value;
+            const suffix = currentLang === 'hi' ? suffixHi : suffixEn;
+            document.getElementById(id + '_val').innerText = val + suffix;
+        }
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            document.getElementById('btnLangEn').classList.toggle('active', lang === 'en');
+            document.getElementById('btnLangHi').classList.toggle('active', lang === 'hi');
+
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = lang === 'hi' ? el.getAttribute('data-hi') : el.getAttribute('data-en');
+                if (text) {
+                    el.innerText = text;
+                }
+            });
+
+            updateVal('study_hours', ' hrs', ' घंटे');
+            updateVal('attendance', '%', '%');
+            updateVal('previous_grades', '%', '%');
+            updateVal('sleep_hours', ' hrs', ' घंटे');
+
+            const resEn = document.querySelector('.res-text-en');
+            const resHi = document.querySelector('.res-text-hi');
+            if (resEn && resHi) {
+                resEn.style.display = lang === 'en' ? 'inline' : 'none';
+                resHi.style.display = lang === 'hi' ? 'inline' : 'none';
+            }
+
+            const coachEn = document.querySelector('.res-coach-en');
+            const coachHi = document.querySelector('.res-coach-hi');
+            if (coachEn && coachHi) {
+                coachEn.style.display = lang === 'en' ? 'block' : 'none';
+                coachHi.style.display = lang === 'hi' ? 'block' : 'none';
+            }
+
+            document.querySelectorAll('.text-en').forEach(el => el.style.display = lang === 'en' ? 'block' : 'none');
+            document.querySelectorAll('.text-hi').forEach(el => el.style.display = lang === 'hi' ? 'block' : 'none');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateVal('study_hours', ' hrs', ' घंटे');
+            updateVal('attendance', '%', '%');
+            updateVal('previous_grades', '%', '%');
+            updateVal('sleep_hours', ' hrs', ' घंटे');
+            loadExamHistory();
+
+            {% if prediction_res %}
+            document.getElementById('step1Indicator').classList.remove('active');
+            document.getElementById('step2Indicator').classList.add('active');
+            document.getElementById('step3Indicator').classList.add('active');
+            {% endif %}
+        });
+
+        function saveExamHistory(e) {
+            e.preventDefault();
+            const name = document.getElementById('examName').value;
+            const pred = parseFloat(document.getElementById('examPredicted').value);
+            const act = parseFloat(document.getElementById('examActual').value);
+            const accuracy = (100 - Math.abs(pred - act)).toFixed(1);
+
+            const record = { name, pred, act, accuracy };
+
+            let history = JSON.parse(localStorage.getItem('studentExamHistory') || '[]');
+            history.unshift(record);
+            localStorage.setItem('studentExamHistory', JSON.stringify(history));
+
+            loadExamHistory();
+
+            const modalEl = document.getElementById('postExamModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
+
+        function loadExamHistory() {
+            let history = JSON.parse(localStorage.getItem('studentExamHistory') || '[]');
+            if (history.length === 0) {
+                history = [{ name: 'Midterm Assessment', pred: 71.0, act: 74.0, accuracy: 96.0 }];
+            }
+
+            const tbody = document.getElementById('historyTableBody');
+            tbody.innerHTML = '';
+            history.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="fw-semibold">${item.name}</td>
+                    <td><span class="badge bg-primary-subtle text-primary fw-bold">${item.pred.toFixed(1)}%</span></td>
+                    <td><span class="badge bg-success-subtle text-success fw-bold">${item.act.toFixed(1)}%</span></td>
+                    <td><span class="fw-bold text-dark">${item.accuracy}%</span></td>
+                    <td><span class="badge bg-success">Verified 🎉</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
