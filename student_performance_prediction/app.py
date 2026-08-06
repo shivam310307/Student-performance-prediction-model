@@ -3,11 +3,19 @@ import pandas as pd
 import numpy as np
 from flask import Flask, render_template, request, jsonify
 
-app = Flask(__name__)
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static")
+)
 
 # Load trained model artifacts
 try:
-    with open("model.pkl", "rb") as f:
+    model_path = os.path.join(BASE_DIR, "model.pkl")
+    with open(model_path, "rb") as f:
         artifacts = pickle.load(f)
     model_pipeline = artifacts["pipeline"]
     model_name = artifacts["model_name"]
