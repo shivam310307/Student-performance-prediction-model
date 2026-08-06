@@ -201,9 +201,10 @@
                 <small class="text-secondary" data-en="Your personal academic AI growth companion" data-hi="आपका अपना शैक्षणिक एआई कोच">Your personal academic AI growth companion</small>
             </div>
             <div class="d-flex gap-2 flex-wrap">
-                <span class="badge-achievement"><i class="bi bi-award-fill text-warning me-1"></i> Consistent Learner</span>
-                <span class="badge-achievement"><i class="bi bi-moon-stars-fill text-primary me-1"></i> Sleep Champion</span>
-                <span class="badge-achievement"><i class="bi bi-journal-check text-success me-1"></i> Exam Ready</span>
+                <a href="#exam-ready-hub" class="badge-achievement text-decoration-none bg-success text-white px-3 py-2 fs-6 shadow-sm border-0">
+                    <i class="bi bi-journal-check me-1"></i>
+                    <span data-en="Exam Ready Hub 🎯" data-hi="परीक्षा तैयारी केंद्र 🎯">Exam Ready Hub 🎯</span>
+                </a>
             </div>
         </div>
 
@@ -467,6 +468,173 @@
 
         </div>
 
+        <!-- 🎯 EXAM READY HUB: PREPARATION ROADMAP, DAILY TIMETABLE & HARD WORK STRATEGY -->
+        {% if prediction_res %}
+        <div class="card card-custom p-4 mt-4 shadow-sm border-0" id="exam-ready-hub">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 pb-2 border-bottom">
+                <div>
+                    <h4 class="fw-extrabold text-dark mb-1 d-flex align-items-center gap-2">
+                        <i class="bi bi-journal-check text-success fs-3"></i>
+                        <span data-en="Exam Ready Hub: Preparation Roadmap & Daily Schedule" data-hi="परीक्षा तैयारी केंद्र: तैयारी रोडमैप एवं दैनिक समय-सारणी">
+                            Exam Ready Hub: Preparation Roadmap & Daily Schedule
+                        </span>
+                    </h4>
+                    <p class="text-secondary small mb-0" data-en="Your personalized study system designed to bridge your score gap and achieve your target predicted score." data-hi="अंकों का अंतर दूर करने और लक्ष्य अनुमानित अंक प्राप्त करने के लिए आपकी व्यक्तिगत अध्ययन प्रणाली।">
+                        Your personalized study system designed to bridge your score gap and achieve your target predicted score.
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-2 rounded-pill fs-6">
+                        <i class="bi bi-graph-up-arrow me-1"></i>
+                        <span data-en="Predicted: {{ prediction_res.expected_score }}% | Goal Target: {{ prediction_res.target_needed }}%" data-hi="अनुमानित: {{ prediction_res.expected_score }}% | लक्ष्य: {{ prediction_res.target_needed }}%">
+                            Predicted: {{ prediction_res.expected_score }}% | Goal Target: {{ prediction_res.target_needed }}%
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs for Exam Readiness Hub -->
+            <ul class="nav nav-pills nav-fill gap-2 mb-4 p-1 bg-light rounded-4 border" id="examHubTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active rounded-pill fw-bold" id="timetable-tab" data-bs-toggle="pill" data-bs-target="#timetable-pane" type="button" role="tab">
+                        <i class="bi bi-alarm-fill me-1"></i>
+                        <span data-en="⏰ Daily Student Timetable" data-hi="⏰ दैनिक छात्र समय-सारणी">⏰ Daily Student Timetable</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill fw-bold" id="roadmap-tab" data-bs-toggle="pill" data-bs-target="#roadmap-pane" type="button" role="tab">
+                        <i class="bi bi-map-fill me-1"></i>
+                        <span data-en="🗺️ 4-Week Preparation Roadmap" data-hi="🗺️ 4-सप्ताह तैयारी रोडमैप">🗺️ 4-Week Preparation Roadmap</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill fw-bold" id="hardwork-tab" data-bs-toggle="pill" data-bs-target="#hardwork-pane" type="button" role="tab">
+                        <i class="bi bi-fire me-1"></i>
+                        <span data-en="🔥 How to Work Hard & Smart" data-hi="🔥 कठिन एवं स्मार्ट परिश्रम कैसे करें">🔥 How to Work Hard & Smart</span>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="examHubTabContent">
+                <!-- 1. DAILY TIMETABLE PANE -->
+                <div class="tab-pane fade show active" id="timetable-pane" role="tabpanel">
+                    <div class="alert alert-primary bg-primary-subtle border-primary-subtle rounded-3 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-clock-history fs-4 text-primary"></i>
+                            <div>
+                                <strong class="text-dark d-block" data-en="Personalized Daily Time Schedule" data-hi="व्यक्तिगत दैनिक समय सारणी">Personalized Daily Time Schedule</strong>
+                                <small class="text-secondary" data-en="Structured based on your {{ prediction_res.input_features.study_hours }} weekly study hrs and {{ prediction_res.input_features.sleep_hours }} hrs sleep schedule." data-hi="आपके {{ prediction_res.input_features.study_hours }} घंटे साप्ताहिक अध्ययन और {{ prediction_res.input_features.sleep_hours }} घंटे नींद के आधार पर संरचित।">
+                                    Structured based on your {{ prediction_res.input_features.study_hours }} weekly study hrs and {{ prediction_res.input_features.sleep_hours }} hrs sleep schedule.
+                                </small>
+                            </div>
+                        </div>
+                        <span class="badge bg-primary text-white px-3 py-2 rounded-pill fw-bold">
+                            <span data-en="{{ (prediction_res.input_features.study_hours / 7.0)|round(1) }} hrs/day study target" data-hi="{{ (prediction_res.input_features.study_hours / 7.0)|round(1) }} घंटे/दिन अध्ययन लक्ष्य">
+                                {{ (prediction_res.input_features.study_hours / 7.0)|round(1) }} hrs/day study target
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="row g-3">
+                        {% for item in prediction_res.daily_timetable %}
+                        {% set loop_idx = loop.index0 %}
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 border bg-white h-100 shadow-sm border-start border-4 border-primary">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="badge bg-secondary-subtle text-dark fw-bold fs-7">
+                                        <i class="bi bi-clock me-1"></i>{{ item.time }}
+                                    </span>
+                                    <span class="badge bg-success-subtle text-success fw-semibold fs-8" data-en="Recommended" data-hi="अनुशंसित">Recommended</span>
+                                </div>
+                                <h6 class="fw-bold text-dark mb-1">
+                                    <span class="text-en">{{ item.activity }}</span>
+                                    <span class="text-hi" style="display:none;">{{ prediction_res.daily_timetable_hi[loop_idx].activity }}</span>
+                                </h6>
+                                <p class="small text-secondary mb-0">
+                                    <span class="text-en">{{ item.detail }}</span>
+                                    <span class="text-hi" style="display:none;">{{ prediction_res.daily_timetable_hi[loop_idx].detail }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 2. 4-WEEK PREPARATION ROADMAP PANE -->
+                <div class="tab-pane fade" id="roadmap-pane" role="tabpanel">
+                    <div class="alert alert-success bg-success-subtle border-success-subtle rounded-3 mb-3">
+                        <strong class="text-dark d-block" data-en="30-Day Step-by-Step Exam Preparation Roadmap" data-hi="30-दिवसीय चरणबद्ध परीक्षा तैयारी रोडमैप">30-Day Step-by-Step Exam Preparation Roadmap</strong>
+                        <small class="text-secondary" data-en="Follow these 4 weekly milestones to systematically improve your scores and achieve your target." data-hi="अपने अंकों में व्यवस्थित सुधार लाने और लक्ष्य प्राप्त करने के लिए इन 4 साप्ताहिक मील के पत्थरों का पालन करें।">
+                            Follow these 4 weekly milestones to systematically improve your scores and achieve your target.
+                        </small>
+                    </div>
+                    <div class="row g-3">
+                        {% for item in prediction_res.roadmap %}
+                        {% set loop_idx = loop.index0 %}
+                        <div class="col-md-6 col-lg-3">
+                            <div class="p-3 rounded-4 border bg-white h-100 shadow-sm d-flex flex-column justify-content-between border-top border-4 border-primary">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-primary text-white fw-bold px-3 py-1 rounded-pill">
+                                            <span class="text-en">{{ item.week }}</span>
+                                            <span class="text-hi" style="display:none;">{{ prediction_res.roadmap_hi[loop_idx].week }}</span>
+                                        </span>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-2">
+                                        <span class="text-en">{{ item.phase }}</span>
+                                        <span class="text-hi" style="display:none;">{{ prediction_res.roadmap_hi[loop_idx].phase }}</span>
+                                    </h6>
+                                    <p class="small text-secondary mb-0">
+                                        <span class="text-en">{{ item.task }}</span>
+                                        <span class="text-hi" style="display:none;">{{ prediction_res.roadmap_hi[loop_idx].task }}</span>
+                                    </p>
+                                </div>
+                                <div class="mt-3 pt-2 border-top text-center">
+                                    <small class="text-primary fw-bold" data-en="Milestone {{ loop.index }} of 4" data-hi="चरण {{ loop.index }} / 4">Milestone {{ loop.index }} of 4</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 3. HOW TO WORK HARD & SMART PANE -->
+                <div class="tab-pane fade" id="hardwork-pane" role="tabpanel">
+                    <div class="alert alert-warning bg-warning-subtle border-warning-subtle rounded-3 mb-3">
+                        <strong class="text-dark d-block" data-en="How to Work Hard & Smart to Achieve Predicted Target Score" data-hi="अनुमानित लक्ष्य अंक प्राप्त करने के लिए कठिन एवं स्मार्ट परिश्रम कैसे करें">
+                            How to Work Hard & Smart to Achieve Predicted Target Score
+                        </strong>
+                        <small class="text-secondary" data-en="Proven scientifically-backed study methods to maximize learning efficiency, retention, and exam day performance." data-hi="अध्ययन दक्षता, स्मरण शक्ति और परीक्षा के दिन प्रदर्शन को अधिकतम करने के लिए वैज्ञानिक तकनीकें।">
+                            Proven scientifically-backed study methods to maximize learning efficiency, retention, and exam day performance.
+                        </small>
+                    </div>
+                    <div class="row g-3">
+                        {% for strategy in prediction_res.hard_work_strategy %}
+                        {% set loop_idx = loop.index0 %}
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 border bg-white h-100 shadow-sm d-flex gap-3 align-items-start">
+                                <div class="p-3 bg-light rounded-3 text-center">
+                                    <i class="bi {{ strategy.icon }} {{ strategy.color }} fs-2"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-1">
+                                        <span class="text-en">{{ strategy.heading }}</span>
+                                        <span class="text-hi" style="display:none;">{{ prediction_res.hard_work_strategy_hi[loop_idx].heading }}</span>
+                                    </h6>
+                                    <p class="small text-secondary mb-0">
+                                        <span class="text-en">{{ strategy.desc }}</span>
+                                        <span class="text-hi" style="display:none;">{{ prediction_res.hard_work_strategy_hi[loop_idx].desc }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- 📊 EXAM HISTORY & POST-EXAM COMPARISON TABLE -->
         <div class="card card-custom p-4 mt-4">
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -630,8 +798,8 @@
                 coachHi.style.display = lang === 'hi' ? 'block' : 'none';
             }
 
-            document.querySelectorAll('.text-en').forEach(el => el.style.display = lang === 'en' ? 'block' : 'none');
-            document.querySelectorAll('.text-hi').forEach(el => el.style.display = lang === 'hi' ? 'block' : 'none');
+            document.querySelectorAll('.text-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+            document.querySelectorAll('.text-hi').forEach(el => el.style.display = lang === 'hi' ? '' : 'none');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
