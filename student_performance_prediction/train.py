@@ -16,9 +16,10 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
 # 1. Load dataset
-DATA_PATH = "student_performance.csv"
-MODEL_PATH = "model.pkl"
-STATIC_DIR = "static"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "student_performance.csv")
+MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 os.makedirs(STATIC_DIR, exist_ok=True)
 df = pd.read_csv(DATA_PATH)
