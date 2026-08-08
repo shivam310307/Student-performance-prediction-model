@@ -1,98 +1,87 @@
-# 🎓 Student Performance Prediction & AI Growth Companion
+# 🎓 Student Growth Companion & Performance Prediction AI
 
-An end-to-end Machine Learning web application designed to predict student academic outcomes (**High Potential** or **Needs Growth**) based on study habits, attendance, past academic performance, and sleep schedules.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+![Flask](https://img.shields.io/badge/Flask-3.0.0-green.svg)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.3.0-orange.svg)
+![Build Status](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)
+![License](https://img.shields.io/badge/License-MIT-purple.svg)
 
-Features an **Exam Ready Hub** with a 30-Day Step-by-Step Preparation Roadmap, Personalized Daily Student Timetable, and Scientifically-Backed Hard Work Strategies.
-
----
-
-## 📌 Project Overview
-
-This project provides a complete machine learning solution featuring:
-- **Automated Dataset Processing**: Missing value imputation, standard scaling, and one-hot encoding using `scikit-learn` ColumnTransformers.
-- **Multi-Model Evaluation**: Evaluated across **Logistic Regression**, **Random Forest**, **Decision Tree**, and **Support Vector Machine (SVM)** algorithms.
-- **Automatic Model Selection**: Automatically selects and serializes (`pickle`) the top-performing model (**87.5% accuracy**).
-- **Exam Ready Hub**: Personalized 30-day preparation roadmap, daily student timetable based on study and sleep hours, and hard work strategies.
-- **Bilingual UI**: Complete English & Hindi language switcher.
-- **Cloud Ready**: Configured for 1-click deployment on **Vercel** and **Render**.
+An AI-powered web application and student growth companion that predicts academic performance, estimates target scores, and generates personalized daily study timetables, exam strategy guides, and 30-day preparation roadmaps.
 
 ---
 
-## 📁 Repository Structure
+## 🌟 Key Features
 
-```text
-├── README.md               # Project documentation (displayed on GitHub main page)
-├── app.py                  # Main Flask application launcher & REST API
-├── Procfile                # WSGI configuration for Render / Railway (web: gunicorn app:app)
-├── vercel.json             # Serverless deployment configuration for Vercel
-├── requirements.txt        # Python dependency specifications
-├── .gitignore              # Git ignore configuration
-└── student_performance_prediction/
-    ├── app.py              # Core Flask application logic & route handlers
-    ├── train.py            # ML pipeline: data loading, preprocessing, model training & evaluation
-    ├── model.pkl           # Serialized best-performing ML model pipeline
-    ├── student_performance.csv  # Dataset containing 1,000 student feature records
-    ├── static/             # Generated EDA visualization charts
-    │   ├── eda_correlation.png
-    │   └── eda_distributions.png
-    └── templates/
-        └── index.html      # Modern Bootstrap 5 dashboard UI with Exam Ready Hub
+* **🤖 Machine Learning Prediction Engine**: Trained on student academic data using Scikit-Learn pipelines with feature scaling and categorical encoding.
+* **📊 Dual Language AI Growth Companion (English & Hindi)**:
+  * Personalized 24-hour Daily Study Timetable tailored to sleep and study hours.
+  * 50/10 Pomodoro Focus Method & Active Recall Strategies.
+  * Zero-Error Log Notebook guidance to bridge score gaps.
+  * 4-Week Exam Countdown Preparation Roadmap.
+* **⚡ Modern Responsive UI**: Built with Bootstrap 5, glassmorphism cards, interactive tabs, progress bars, and instant prediction visualization.
+* **🧪 Comprehensive Unit Test Suite**: Includes automated test coverage for Flask HTTP routes, form handling, and JSON API payloads.
+
+---
+
+## 🛠️ Project Architecture
+
+```
+Student Performance Analyzer/
+├── app.py                            # Root Flask application launcher
+├── vercel.json                       # Vercel Serverless Deployment Config
+├── requirements.txt                  # Python dependencies
+├── Procfile                          # Gunicorn web server process configuration
+├── student_performance_prediction/
+│   ├── app.py                        # Core Flask routing & AI payload generator
+│   ├── train.py                      # Model training & EDA visualization script
+│   ├── model.pkl                     # Serialized Scikit-Learn ML pipeline
+│   ├── student_performance.csv       # Training dataset
+│   ├── templates/
+│   │   └── index.html                # Responsive web interface
+│   └── static/                       # Correlation heatmaps & feature plots
+└── tests/
+    ├── __init__.py
+    └── test_app.py                   # Automated unit test suite
 ```
 
 ---
 
-## 📊 Dataset Description
+## 🚀 Getting Started
 
-The dataset (`student_performance.csv`) consists of 1,000 student records with 8 key predictive features:
+### 1. Clone & Install Dependencies
 
-| Feature | Type | Description |
-| :--- | :--- | :--- |
-| `study_hours` | Numerical | Weekly study time in hours (1 – 35) |
-| `attendance` | Numerical | Class attendance percentage (50% – 100%) |
-| `previous_grades` | Numerical | Previous exam score percentage (40% – 100%) |
-| `sleep_hours` | Numerical | Average sleep per night in hours (4 – 10) |
-| `extracurricular_activities` | Categorical | Participation in extracurriculars (`Yes` / `No`) |
-| `parental_education` | Categorical | Parent education level (`High School`, `Bachelor`, `Master`, `Doctorate`) |
-| `internet_access` | Categorical | Home internet availability (`Yes` / `No`) |
-| `family_support` | Categorical | Family academic support (`Yes` / `No`) |
-| **`performance`** | **Target** | Academic outcome (`High` / `Low`) |
-
----
-
-## ⚙️ Model Comparison & Performance
-
-| Model Algorithm | Accuracy | Precision | Recall | F1-Score |
-| :--- | :---: | :---: | :---: | :---: |
-| **Logistic Regression** *(Best)* | **87.5%** | **0.87** | **0.88** | **0.88** |
-| Support Vector Machine (SVM) | 87.0% | 0.86 | 0.88 | 0.87 |
-| Random Forest | 86.5% | 0.89 | 0.84 | 0.86 |
-| Decision Tree | 76.5% | 0.81 | 0.70 | 0.75 |
-
----
-
-## 🚀 Running Locally
-
-### 1. Install Dependencies
 ```bash
+git clone https://github.com/shivam310307/Student-performance-prediction-model.git
+cd Student-performance-prediction-model
 pip install -r requirements.txt
 ```
 
-### 2. (Optional) Re-train the Machine Learning Model
-To re-run data preprocessing, generate EDA charts, and export `model.pkl`:
-```bash
-python student_performance_prediction/train.py
-```
+### 2. Run the Web Application Locally
 
-### 3. Launch the Web Application
 ```bash
 python app.py
 ```
 
-Open your browser and navigate to **`http://localhost:5000`** (or `http://127.0.0.1:5000`).
+Open your browser and navigate to:
+👉 **`http://localhost:5000`** or **`http://127.0.0.1:5000`**
+
+### 3. Run Automated Unit Tests
+
+```bash
+python -m unittest discover -s tests
+```
 
 ---
 
-## ☁️ Cloud Deployment
+## ☁️ Deployment
 
-- **Vercel**: Import the GitHub repo (`shivam310307/Student-performance-prediction-model`) into Vercel. It automatically uses `vercel.json` for 1-click deployment.
-- **Render**: Create a new Web Service on Render, select this repo, and use Start Command: `gunicorn app:app`.
+This project is pre-configured for free cloud deployment on **Vercel** or **Render**:
+
+* **Vercel**: Pre-configured via `vercel.json` (`@vercel/python` serverless runner).
+* **Render**: Procfile configured with `gunicorn app:app`.
+
+---
+
+## 📄 License
+
+This project is open-source under the [MIT License](LICENSE).
